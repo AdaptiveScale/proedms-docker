@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  proedms:
+    image: gcr.io/adaptivescale-178418/proedms:2.1.1-beta8-demo
+    container_name: proedms
+    environment:
+      - ACCEPT_EULA=Y
+    links:
+      - mysql
+      - mssql
+    networks:
+      - gateway
+    ports:
+      - '8080:8080'
+
+  mysql:
+    image: restsql/mysql-sakila
+    container_name: mysql
+    networks:
+      - gateway
+
+  mssql:
+    image: fabricioveronez/northwind-database
+    container_name: mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Northwind0123
+    networks:
+      - gateway
+
+networks:
+  gateway: {}
